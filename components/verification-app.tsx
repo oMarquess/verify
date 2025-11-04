@@ -63,7 +63,7 @@ export default function VerificationApp() {
 
   // WebSocket connection to liveness service
   const connectWebSocket = useCallback(() => {
-    const wsUrl = `ws://localhost:8002/stream-liveness`
+    const wsUrl = `wss://0da7bca81cc9.ngrok-free.app/stream-liveness`
     wsRef.current = new WebSocket(wsUrl)
 
     wsRef.current.onopen = () => {
@@ -304,8 +304,8 @@ export default function VerificationApp() {
       formData.append('session_id', sessionId)
       formData.append('id_card', idCardFile)
 
-      console.log('📡 Fetching to http://localhost:8002/session-verify')
-      const response = await fetch('http://localhost:8002/session-verify', {
+      console.log('📡 Fetching to https://0da7bca81cc9.ngrok-free.app/session-verify')
+      const response = await fetch('https://0da7bca81cc9.ngrok-free.app/session-verify', {
         method: 'POST',
         body: formData,
       })
