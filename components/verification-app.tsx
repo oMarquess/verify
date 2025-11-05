@@ -9,6 +9,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Progress } from '@/components/ui/progress'
 import { useToast } from '@/hooks/use-toast'
 
+const BASE_URL = 'https://liveness-service-999275183993.us-central1.run.app'
+
 interface LivenessResult {
   status: string
   message: string
@@ -63,7 +65,8 @@ export default function VerificationApp() {
 
   // WebSocket connection to liveness service
   const connectWebSocket = useCallback(() => {
-    const wsUrl = `wss://0da7bca81cc9.ngrok-free.app/stream-liveness`
+    // const wsUrl = `wss://0da7bca81cc9.ngrok-free.app/stream-liveness`
+    const wsUrl = `wss://${BASE_URL.replace('https://', '')}/stream-liveness`
     wsRef.current = new WebSocket(wsUrl)
 
     wsRef.current.onopen = () => {
@@ -304,8 +307,8 @@ export default function VerificationApp() {
       formData.append('session_id', sessionId)
       formData.append('id_card', idCardFile)
 
-      console.log('📡 Fetching to https://0da7bca81cc9.ngrok-free.app/session-verify')
-      const response = await fetch('https://0da7bca81cc9.ngrok-free.app/session-verify', {
+      console.log(`📡 Fetching to ${BASE_URL}/session-verify`)
+      const response = await fetch(`${BASE_URL}/session-verify`, {
         method: 'POST',
         body: formData,
       })
