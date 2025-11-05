@@ -70,7 +70,7 @@ export default function VerificationApp() {
     wsRef.current = new WebSocket(wsUrl)
 
     wsRef.current.onopen = () => {
-      console.log('WebSocket connected')
+      console.log('WebSocket connected to:', wsUrl)
       // toast({
       //   title: "Camera Connected",
       //   description: "Ready for liveness detection",
@@ -249,6 +249,7 @@ export default function VerificationApp() {
   const startLivenessDetection = useCallback(() => {
     if (!wsRef.current || !videoRef.current || !canvasRef.current) return
 
+    console.log('Starting liveness detection, sending start_verification')
     // Send start verification command
     wsRef.current.send(JSON.stringify({ command: 'start_verification' }))
 
@@ -256,6 +257,7 @@ export default function VerificationApp() {
     intervalRef.current = setInterval(() => {
       if (!videoRef.current || !canvasRef.current || !wsRef.current) return
 
+      console.log('Attempting to send frame')
       const canvas = canvasRef.current
       const video = videoRef.current
       const ctx = canvas.getContext('2d')
@@ -269,11 +271,14 @@ export default function VerificationApp() {
       canvas.toBlob((blob) => {
         if (!blob || !wsRef.current) return
 
+        console.log('Blob created, size:', blob.size)
         const reader = new FileReader()
         reader.onload = () => {
           const base64 = (reader.result as string).split(',')[1]
+          console.log('Base64 length:', base64.length, 'readyState:', wsRef.current?.readyState)
           if (wsRef.current?.readyState === WebSocket.OPEN) {
             wsRef.current.send(JSON.stringify({ frame: base64 }))
+            console.log('Frame sent to WebSocket')
           }
         }
         reader.readAsDataURL(blob)
