@@ -84,12 +84,10 @@ export default function VerificationApp() {
 
         if (data.status === 'CONNECTED') {
           setStep('liveness')
-          // Only start liveness detection if video is ready
-          if (videoReady) {
-            startLivenessDetection()
-          } else {
-            console.log('Waiting for video to be ready before starting liveness detection')
-          }
+          // toast({
+          //   title: "Camera Connected",
+          //   description: "Ready for liveness detection",
+          // })
         } else if (data.status === 'ANALYZING') {
           setConsecutiveFrames(data.consecutive_real || 0)
           setLivenessProgress(Math.min((data.consecutive_real || 0) * 20, 100))
