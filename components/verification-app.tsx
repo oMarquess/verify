@@ -361,6 +361,7 @@ export default function VerificationApp() {
 
   // Start liveness detection when video becomes ready
   useEffect(() => {
+    console.log('useEffect check: videoReady', videoReady, 'step', step, 'ws readyState', wsRef.current?.readyState)
     if (videoReady && step === 'liveness' && wsRef.current?.readyState === WebSocket.OPEN) {
       console.log('Video is ready, starting liveness detection')
       startLivenessDetection()
