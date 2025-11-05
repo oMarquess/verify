@@ -141,6 +141,11 @@ export default function VerificationApp() {
   // Start camera
   const startCamera = useCallback(async () => {
     console.log('🚀 startCamera function called!')
+    // Close any existing WebSocket
+    if (wsRef.current) {
+      wsRef.current.close()
+      setWsReady(false)
+    }
     try {
       console.log('🎥 Requesting camera access...')
       const stream = await navigator.mediaDevices.getUserMedia({ 
