@@ -54,6 +54,7 @@ export default function VerificationApp() {
   const [livenessProgress, setLivenessProgress] = useState(0)
   const [consecutiveFrames, setConsecutiveFrames] = useState(0)
   const [videoReady, setVideoReady] = useState(false)
+  const [wsReady, setWsReady] = useState(false)
   
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -71,6 +72,7 @@ export default function VerificationApp() {
 
     wsRef.current.onopen = () => {
       console.log('WebSocket connected to:', wsUrl)
+      setWsReady(true)
       // toast({
       //   title: "Camera Connected",
       //   description: "Ready for liveness detection",
@@ -125,12 +127,14 @@ export default function VerificationApp() {
 
     wsRef.current.onerror = (error) => {
       console.error('WebSocket error:', error)
+      setWsReady(false)
       setError('Connection to liveness service failed')
       setStep('error')
     }
 
     wsRef.current.onclose = () => {
       console.log('WebSocket disconnected')
+      setWsReady(false)
     }
   }, [])
 
@@ -353,6 +357,7 @@ export default function VerificationApp() {
     setLivenessProgress(0)
     setConsecutiveFrames(0)
     setVideoReady(false)
+    setWsReady(false)
     stopCamera()
     if (wsRef.current) {
       wsRef.current.close()
@@ -361,12 +366,12 @@ export default function VerificationApp() {
 
   // Start liveness detection when video becomes ready
   useEffect(() => {
-    console.log('useEffect check: videoReady', videoReady, 'step', step, 'ws readyState', wsRef.current?.readyState)
-    if (videoReady && step === 'liveness' && wsRef.current?.readyState === WebSocket.OPEN) {
+    console.log('useEffect check: videoReady', videoReady, 'step', step, 'wsReady', wsReady)
+    if (videoReady && step === 'liveness' && wsReady) {
       console.log('Video is ready, starting liveness detection')
       startLivenessDetection()
     }
-  }, [videoReady, step, startLivenessDetection])
+  }, [videoReady, step, wsReady, startLivenessDetection])
 
   // Cleanup on unmount
   useEffect(() => {
