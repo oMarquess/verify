@@ -471,7 +471,7 @@ export default function VerificationApp() {
                         <div className="text-center">
                           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
                           <p className="text-sm">Initializing camera...</p>
-                          <p className="text-xs text-gray-400 mt-1">Please allow camera access</p>
+                          <p className="text-xs text-gray-400 mt-1">Please allow camera access, by clicking the "Start Verification" button</p>
                         </div>
                       </div>
                     )}
