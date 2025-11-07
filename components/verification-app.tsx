@@ -487,7 +487,7 @@ export default function VerificationApp() {
                   
                   <p className="text-center text-sm text-gray-600">
                     {consecutiveFrames < 5 
-                      ? "Move naturally in front of the camera..." 
+                      ? "Move your face closer, then slowly pull back..." 
                       : "Almost done! Keep looking at the camera..."}
                   </p>
                   
@@ -523,7 +523,7 @@ export default function VerificationApp() {
                       }}
                       className="px-2 py-1 border border-gray-300 text-gray-700 text-xs rounded"
                     >
-                      Start Camera
+                      Start Verification
                     </button>
                   </div>
                   
