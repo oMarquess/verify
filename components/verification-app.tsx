@@ -141,6 +141,11 @@ export default function VerificationApp() {
   // Start camera
   const startCamera = useCallback(async () => {
     console.log('🚀 startCamera function called!')
+    // Close any existing WebSocket
+    if (wsRef.current) {
+      wsRef.current.close()
+      setWsReady(false)
+    }
     try {
       console.log('🎥 Requesting camera access...')
       const stream = await navigator.mediaDevices.getUserMedia({ 
@@ -423,7 +428,7 @@ export default function VerificationApp() {
                     className="w-full"
                   >
                     <Camera className="h-4 w-4 mr-2" />
-                    Start Camera
+                    Start Verification
                   </Button>
                 </CardContent>
               </Card>
