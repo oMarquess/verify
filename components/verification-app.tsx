@@ -428,7 +428,7 @@ export default function VerificationApp() {
                     className="w-full"
                   >
                     <Camera className="h-4 w-4 mr-2" />
-                    Start Camera
+                    Start Verification
                   </Button>
                 </CardContent>
               </Card>
