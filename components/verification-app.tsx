@@ -53,6 +53,7 @@ export default function VerificationApp() {
   const [error, setError] = useState<string | null>(null)
   const [livenessProgress, setLivenessProgress] = useState(0)
   const [consecutiveFrames, setConsecutiveFrames] = useState(0)
+  const [verificationProgress, setVerificationProgress] = useState(0)
   const [videoReady, setVideoReady] = useState(false)
   const [wsReady, setWsReady] = useState(false)
   
@@ -388,6 +389,23 @@ export default function VerificationApp() {
     }
   }, [stopCamera])
 
+  // Mock verification progress
+  useEffect(() => {
+    if (step === 'verifying') {
+      setVerificationProgress(0)
+      const interval = setInterval(() => {
+        setVerificationProgress(prev => {
+          if (prev >= 100) {
+            clearInterval(interval)
+            return 100
+          }
+          return prev + 2 // Increment by 2% every 100ms (~5 seconds total)
+        })
+      }, 100)
+      return () => clearInterval(interval)
+    }
+  }, [step])
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="max-w-4xl mx-auto">
@@ -594,9 +612,10 @@ export default function VerificationApp() {
               exit={{ opacity: 0, scale: 0.9 }}
             >
               <Card className="max-w-md mx-auto">
-                <CardContent className="text-center py-12">
-                  <LoaderIcon className="h-12 w-12 animate-spin mx-auto mb-4 text-blue-600" />
-                  <h3 className="text-lg font-semibold mb-2">Verifying Identity</h3>
+                <CardContent className="text-center py-8">
+                  <h3 className="text-lg font-semibold mb-4">Verifying Identity</h3>
+                  <Progress value={verificationProgress} className="h-3 mb-4" />
+                  <p className="text-sm text-gray-600 mb-4">Verifying... {Math.round(verificationProgress)}%</p>
                   <p className="text-gray-600">Please wait while we verify your identity...</p>
                 </CardContent>
               </Card>
