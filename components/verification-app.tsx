@@ -395,16 +395,27 @@ export default function VerificationApp() {
       setVerificationProgress(0)
       const interval = setInterval(() => {
         setVerificationProgress(prev => {
-          if (prev >= 100) {
+          if (prev >= 80) {
             clearInterval(interval)
-            return 100
+            return 80
           }
-          return prev + 2 // Increment by 2% every 100ms (~5 seconds total)
+          return prev + 1 // Increment by 1% every 100ms (~8 seconds to 80%)
         })
       }, 100)
       return () => clearInterval(interval)
     }
   }, [step])
+
+  // Complete progress when verification finishes
+  useEffect(() => {
+    if ((step === 'success' || step === 'error') && verificationProgress < 100) {
+      const completeProgress = () => {
+        setVerificationProgress(100)
+      }
+      // Rapid completion animation
+      setTimeout(completeProgress, 100)
+    }
+  }, [step, verificationProgress])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
