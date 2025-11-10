@@ -469,6 +469,18 @@ export default function VerificationApp() {
                   <CardDescription>
                     Look at the camera and move naturally. Keep your face in the frame.
                   </CardDescription>
+                  <div className="mt-6">
+                    <button 
+                      onClick={() => {
+                        console.log('🎥 Manually calling startCamera...')
+                        startCamera()
+                      }}
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl w-full py-3 px-4 flex items-center justify-center gap-2 text-sm"
+                    >
+                      <Camera className="h-5 w-5" />
+                      Start Verification
+                    </button>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="relative mx-auto w-fit">
@@ -532,18 +544,6 @@ export default function VerificationApp() {
                       )}
                     </div>
                   </div> */}
-                  
-                  <div className="text-center mt-4">
-                    <button 
-                      onClick={() => {
-                        console.log('🎥 Manually calling startCamera...')
-                        startCamera()
-                      }}
-                      className="px-2 py-1 border border-gray-300 text-gray-700 text-xs rounded"
-                    >
-                      Start Verification
-                    </button>
-                  </div>
                   
                 </CardContent>
               </Card>
