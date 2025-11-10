@@ -420,17 +420,17 @@ export default function VerificationApp() {
                   <CardDescription>
                     We need access to your camera for liveness detection
                   </CardDescription>
+                  <div className="mt-6">
+                    <Button 
+                      onClick={startCamera}
+                      size="lg" 
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl w-full"
+                    >
+                      <Camera className="h-5 w-5 mr-2" />
+                      Start Verification
+                    </Button>
+                  </div>
                 </CardHeader>
-                <CardContent className="text-center">
-                  <Button 
-                    onClick={startCamera}
-                    size="lg" 
-                    className="w-full"
-                  >
-                    <Camera className="h-4 w-4 mr-2" />
-                    Start Verification
-                  </Button>
-                </CardContent>
               </Card>
             </motion.div>
           )}
